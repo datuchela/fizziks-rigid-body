@@ -33,6 +33,10 @@ export const init = (canvasNode: HTMLCanvasElement) => {
     elapsed = Math.min(elapsed, 0.1);
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    engineState.detectAndHandleCollisions();
+    engineState.detectAndHandleEdgeCollisions(canvas);
+
     engineState.updateObjects(elapsed);
     engineState.drawObjects(ctx);
 
