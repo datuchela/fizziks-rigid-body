@@ -1,37 +1,44 @@
 import { Square } from "../objects/Square";
 import { rectIntersect } from "../utils/rectIntersect";
 
-export type EngineState = {
-  objects: Square[];
+export type EngineObject = Square;
+
+export interface EngineState {
+  objects: EngineObject[];
   value: string;
   updateObjects: (dt: number) => void;
   drawObjects: (ctx: CanvasRenderingContext2D) => void;
-  addObject: (object: Square) => void;
+  addObject: (object: EngineObject) => void;
   detectAndHandleCollisions: () => void;
   detectAndHandleEdgeCollisions: (canvas: HTMLCanvasElement) => void;
-};
+}
 
-export const engineState: EngineState = {
-  value: "",
-  objects: [],
+export class EngineState {
+  value;
+  objects;
 
-  updateObjects: function (dt) {
+  constructor(objects?: EngineObject[]) {
+    this.value = "";
+    this.objects = objects ?? [];
+  }
+
+  updateObjects = (dt: number) => {
     this.objects.forEach((obj) => {
       obj.update(dt);
     });
-  },
+  };
 
-  drawObjects: function (ctx) {
+  drawObjects = (ctx: CanvasRenderingContext2D) => {
     this.objects.forEach((obj) => {
       obj.draw(ctx);
     });
-  },
+  };
 
-  addObject: function (object) {
+  addObject = (object: EngineObject) => {
     this.objects.push(object);
-  },
+  };
 
-  detectAndHandleCollisions: function () {
+  detectAndHandleCollisions = () => {
     let obj1;
     let obj2;
 
@@ -50,10 +57,10 @@ export const engineState: EngineState = {
         }
       }
     }
-  },
+  };
 
   // passing canvas in this method, let's talk about it
-  detectAndHandleEdgeCollisions: function (canvas) {
+  detectAndHandleEdgeCollisions = (canvas: HTMLCanvasElement) => {
     const restitution = 0.9;
     let obj;
 
@@ -78,5 +85,5 @@ export const engineState: EngineState = {
         obj.y = canvas.height - obj.length / 2;
       }
     }
-  },
-};
+  };
+}

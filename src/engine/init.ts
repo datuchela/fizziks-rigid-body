@@ -1,6 +1,6 @@
 import { Square } from "../objects/Square";
 import { relativePoint } from "../utils/relativePoint";
-import { engineState } from "./engineState";
+import { EngineState } from "./engineState";
 
 export type Engine = {
   onClickCanvas: (clientX: number, clientY: number) => void;
@@ -10,7 +10,8 @@ const DEFAULT_CANVAS_WIDTH = 1280;
 const DEFAULT_CANVAS_HEIGHT = 720;
 
 const handleClick =
-  (canvas: HTMLCanvasElement) => (clientX: number, clientY: number) => {
+  (canvas: HTMLCanvasElement, engineState: EngineState) =>
+  (clientX: number, clientY: number) => {
     const [x, y] = relativePoint(clientX, clientY, canvas);
     const square = new Square({ x, y, mass: 50 });
     engineState.addObject(square);
@@ -19,6 +20,8 @@ const handleClick =
 export const init = (canvasNode: HTMLCanvasElement) => {
   let elapsed = 0;
   let oldTimeStamp = 0;
+
+  const engineState = new EngineState();
 
   const canvas = canvasNode;
   const ctx = canvas?.getContext("2d");
@@ -46,6 +49,6 @@ export const init = (canvasNode: HTMLCanvasElement) => {
   requestAnimationFrame(tick);
 
   return {
-    onClickCanvas: handleClick(canvas),
+    onClickCanvas: handleClick(canvas, engineState),
   };
 };
