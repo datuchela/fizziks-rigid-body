@@ -1,6 +1,6 @@
 # physics-engine
 
-Usecase for small framework agnostic physics engine in React.
+A use case for small framework agnostic physics engine in React.
 
 ## TODO
 
