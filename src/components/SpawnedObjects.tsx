@@ -1,7 +1,8 @@
-import { useObjects } from "../hooks/useObjects";
+import { useState } from "react";
+import { EngineObject } from "../engine/engineState";
 
 export const SpawnedObjects = () => {
-	const [objects, setObjects] = useObjects();
+	const [objects, setObjects] = useState<EngineObject[]>([]);
 
 	function handleDeleteObject(id: string) {
 		setObjects((prev) => prev.filter((obj) => obj.id !== id));
