@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { socket } from "../App";
+// import { socket } from "../App";
 import { relativePoint } from "../utils/relativePoint";
 import { Square } from "../objects/Square";
 import { rectIntersect } from "../utils/rectIntersect";
@@ -19,7 +19,7 @@ export const useGame = () => {
         const [x, y] = relativePoint(e.clientX, e.clientY, canvasRef.current);
         const square = new Square({ x, y, mass: 50 });
         setObjects((prev) => [...prev, square]);
-        socket.emit("spawn-object", { id: square.id, x, y, mass: square.mass });
+        // socket.emit("spawn-object", { id: square.id, x, y, mass: square.mass });
     };
 
     const handleObjectSpawn = ({ id, x, y, mass }: { id: string, x: number, y: number, mass: number }) => {
@@ -115,7 +115,7 @@ export const useGame = () => {
     }
 
     const attachSocketListeners = () => {
-        socket.on("spawn-object", handleObjectSpawn)
+        // socket.on("spawn-object", handleObjectSpawn)
     }
 
     const gameLoop = (timeStamp: number) => {

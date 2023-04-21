@@ -1,22 +1,15 @@
 import { useEffect, useRef } from "react";
-import { socket } from "../App";
-import { useObjects } from "../hooks/useObjects";
 
-import { Square } from "../objects/Square";
-import { rectIntersect } from "../utils/rectIntersect";
-import { relativePoint } from "../utils/relativePoint";
+import { init, type Engine } from "../engine/init";
 
 import canvasClasses from "./Canvas.module.css";
-import { useGame } from "./useGame";
-import { Engine, init } from "../engine/init";
-import { EngineState } from "../engine/engineState";
 
 const DEFAULT_CANVAS_WIDTH = 1280;
 const DEFAULT_CANVAS_HEIGHT = 720;
 
 export const Canvas = () => {
 	const canvasRef = useRef(null)
-	const engineState = useRef<Engine>() 
+	const engineState = useRef<Engine>()
 	
 	useEffect(() => {
 		if(canvasRef.current) {
