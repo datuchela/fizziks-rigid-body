@@ -10,13 +10,7 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-*.local
-
-# Yarn
-/.yarn/**
-/.yarn/releases/*
-/.yarn/plugins/**/*
-/.pnp.*      
+*.local   
 
 # Editor directories and files
 .vscode/*
