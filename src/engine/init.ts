@@ -1,6 +1,6 @@
 import { Square } from "./objects/Square";
 import { relativePoint } from "../utils/relativePoint";
-import { EngineState } from "./engineState";
+import { EngineState } from "./EngineState";
 
 export type Engine = {
 	onClickCanvas: (clientX: number, clientY: number) => void;
@@ -18,10 +18,10 @@ const handleClick =
 	};
 
 export const init = (canvasNode: HTMLCanvasElement) => {
+	const engineState = new EngineState();
+
 	let elapsed = 0;
 	let oldTimeStamp = 0;
-
-	const engineState = new EngineState();
 
 	const canvas = canvasNode;
 	const ctx = canvas?.getContext("2d");

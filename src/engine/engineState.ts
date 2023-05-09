@@ -3,8 +3,6 @@ import { rectIntersect } from "../utils/rectIntersect";
 
 export type EngineObject = Square;
 
-export type EngineObject = Square;
-
 export interface EngineState {
 	objects: EngineObject[];
 	value: string;
