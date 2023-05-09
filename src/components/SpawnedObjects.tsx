@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EngineObject } from "../engine/engineState";
+import { type EngineObject } from "../engine/engineState";
 
 export const SpawnedObjects = () => {
 	const [objects, setObjects] = useState<EngineObject[]>([]);
