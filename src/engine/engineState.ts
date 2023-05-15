@@ -3,87 +3,103 @@ import { rectIntersect } from "../utils/rectIntersect";
 
 export type EngineObject = Square;
 
+export enum EngineStateValue {
+  paused,
+  running,
+}
+
 export interface EngineState {
-	objects: EngineObject[];
-	value: string;
-	updateObjects: (dt: number) => void;
-	drawObjects: (ctx: CanvasRenderingContext2D) => void;
-	addObject: (object: EngineObject) => void;
-	detectAndHandleCollisions: () => void;
-	detectAndHandleEdgeCollisions: (canvas: HTMLCanvasElement) => void;
+  value: EngineStateValue;
+  objects: EngineObject[];
+  canvasWidth: number;
+  canvasHeight: number;
+
+  updateObjects: (dt: number) => void;
+  drawObjects: (ctx: CanvasRenderingContext2D) => void;
+  addObject: (object: EngineObject) => void;
+  detectAndHandleCollisions: () => void;
+  detectAndHandleEdgeCollisions: () => void;
 }
 
 export class EngineState {
-	value;
-	objects;
+  value;
+  objects;
 
-	constructor(objects?: EngineObject[]) {
-		this.value = "";
-		this.objects = objects ?? [];
-	}
+  canvasWidth;
+  canvasHeight;
 
-	updateObjects = (dt: number) => {
-		this.objects.forEach((obj) => {
-			obj.update(dt);
-		});
-	};
+  constructor(
+    canvasWidth: number,
+    canvasHeight: number,
+    objects?: EngineObject[]
+  ) {
+    this.value = EngineStateValue.running;
+    this.objects = objects ?? [];
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
+  }
 
-	drawObjects = (ctx: CanvasRenderingContext2D) => {
-		this.objects.forEach((obj) => {
-			obj.draw(ctx);
-		});
-	};
+  updateObjects = (dt: number) => {
+    this.objects.forEach((obj) => {
+      obj.update(dt);
+    });
+  };
 
-	addObject = (object: EngineObject) => {
-		this.objects.push(object);
-	};
+  drawObjects = (ctx: CanvasRenderingContext2D) => {
+    this.objects.forEach((obj) => {
+      obj.draw(ctx);
+    });
+  };
 
-	detectAndHandleCollisions = () => {
-		let obj1;
-		let obj2;
+  addObject = (object: EngineObject) => {
+    this.objects.push(object);
+  };
 
-		// reset collisions
-		this.objects.forEach((obj) => {
-			obj.isColliding = false;
-		});
+  detectAndHandleCollisions = () => {
+    let obj1;
+    let obj2;
 
-		for (let i = 0; i < this.objects.length; i++) {
-			obj1 = this.objects[i];
-			for (let j = i + 1; j < this.objects.length; j++) {
-				obj2 = this.objects[j];
-				if (rectIntersect(obj1, obj2)) {
-					obj1.isColliding = true;
-					obj2.isColliding = true;
-				}
-			}
-		}
-	};
+    // reset collisions
+    this.objects.forEach((obj) => {
+      obj.isColliding = false;
+    });
 
-	// passing canvas in this method, let's talk about it
-	detectAndHandleEdgeCollisions = (canvas: HTMLCanvasElement) => {
-		const restitution = 0.9;
-		let obj;
+    for (let i = 0; i < this.objects.length; i++) {
+      obj1 = this.objects[i];
+      for (let j = i + 1; j < this.objects.length; j++) {
+        obj2 = this.objects[j];
+        if (rectIntersect(obj1, obj2)) {
+          obj1.isColliding = true;
+          obj2.isColliding = true;
+        }
+      }
+    }
+  };
 
-		for (let i = 0; i < this.objects.length; i++) {
-			obj = this.objects[i];
+  detectAndHandleEdgeCollisions = () => {
+    const restitution = 0.9;
+    let obj;
 
-			// Check for left and right
-			if (obj.x < obj.length) {
-				obj.vx = Math.abs(obj.vx) * restitution;
-				obj.x = obj.length;
-			} else if (obj.x > canvas.width - obj.length) {
-				obj.vx = -Math.abs(obj.vx) * restitution;
-				obj.x = canvas.width - obj.length;
-			}
+    for (let i = 0; i < this.objects.length; i++) {
+      obj = this.objects[i];
 
-			// Check for bottom and top
-			if (obj.y < obj.length) {
-				obj.vy = Math.abs(obj.vy) * restitution;
-				obj.y = obj.length;
-			} else if (obj.y > canvas.height - obj.length / 2) {
-				obj.vy = -Math.abs(obj.vy) * restitution;
-				obj.y = canvas.height - obj.length / 2;
-			}
-		}
-	};
+      // Check for left and right
+      if (obj.x < obj.length) {
+        obj.vx = Math.abs(obj.vx) * restitution;
+        obj.x = obj.length;
+      } else if (obj.x > this.canvasWidth - obj.length) {
+        obj.vx = -Math.abs(obj.vx) * restitution;
+        obj.x = this.canvasWidth - obj.length;
+      }
+
+      // Check for bottom and top
+      if (obj.y < obj.length) {
+        obj.vy = Math.abs(obj.vy) * restitution;
+        obj.y = obj.length;
+      } else if (obj.y > this.canvasHeight - obj.length / 2) {
+        obj.vy = -Math.abs(obj.vy) * restitution;
+        obj.y = this.canvasHeight - obj.length / 2;
+      }
+    }
+  };
 }
