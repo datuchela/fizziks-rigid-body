@@ -9,6 +9,14 @@ const drawFn = (objects: EngineObject[], ctx: CanvasRenderingContext2D) => {
   }
 };
 
+const clearFn = (
+  canvas: HTMLCanvasElement | null,
+  ctx: CanvasRenderingContext2D
+) => {
+  if (!canvas) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+};
+
 export const useEngine = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineState = useRef<Engine>();
@@ -22,16 +30,7 @@ export const useEngine = () => {
         canvasWidth: canvasRef.current.width,
         canvasHeight: canvasRef.current.height,
         drawFn: (objects) => drawFn(objects, ctx),
-        clearFn: () => {
-          if (canvasRef.current) {
-            ctx.clearRect(
-              0,
-              0,
-              canvasRef.current.width,
-              canvasRef.current.height
-            );
-          }
-        },
+        clearFn: () => clearFn(canvasRef.current, ctx),
       });
 
       if (engine) {
