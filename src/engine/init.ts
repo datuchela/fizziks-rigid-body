@@ -1,54 +1,53 @@
 import { Square } from "./objects/Square";
-import { relativePoint } from "../utils/relativePoint";
-import { EngineState } from "./EngineState";
+import { EngineObject, EngineState } from "./engineState";
 
 export type Engine = {
-	onClickCanvas: (clientX: number, clientY: number) => void;
+  spawnObject: (x: number, y: number) => void;
 };
 
-const DEFAULT_CANVAS_WIDTH = 1280;
-const DEFAULT_CANVAS_HEIGHT = 720;
+const addObject = (engineState: EngineState) => (x: number, y: number) => {
+  const square = new Square({ x, y, mass: 50 });
+  engineState.addObject(square);
+};
 
-const handleClick =
-	(canvas: HTMLCanvasElement, engineState: EngineState) =>
-	(clientX: number, clientY: number) => {
-		const [x, y] = relativePoint(clientX, clientY, canvas);
-		const square = new Square({ x, y, mass: 50 });
-		engineState.addObject(square);
-	};
+export type EngineInitParams = {
+  canvasWidth: number;
+  canvasHeight: number;
+  clearFn?: () => void;
+  drawFn?: (objects: EngineObject[]) => void;
+};
 
-export const init = (canvasNode: HTMLCanvasElement) => {
-	const engineState = new EngineState();
+export const init = ({
+  canvasWidth,
+  canvasHeight,
+  clearFn,
+  drawFn,
+}: EngineInitParams) => {
+  const engineState = new EngineState(canvasWidth, canvasHeight);
 
-	let elapsed = 0;
-	let oldTimeStamp = 0;
+  let elapsed = 0;
+  let oldTimeStamp = 0;
 
-	const canvas = canvasNode;
-	const ctx = canvas?.getContext("2d");
-	if (!ctx) return;
+  const tick = (timeStamp: number) => {
+    elapsed = (timeStamp - oldTimeStamp) / 1000;
+    oldTimeStamp = timeStamp;
+    elapsed = Math.min(elapsed, 0.1);
 
-	canvas.width = DEFAULT_CANVAS_WIDTH;
-	canvas.height = DEFAULT_CANVAS_HEIGHT;
+    clearFn && clearFn();
 
-	const tick = (timeStamp: number) => {
-		elapsed = (timeStamp - oldTimeStamp) / 1000;
-		oldTimeStamp = timeStamp;
-		elapsed = Math.min(elapsed, 0.1);
+    engineState.detectAndHandleCollisions();
+    engineState.detectAndHandleEdgeCollisions();
 
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+    engineState.updateObjects(elapsed);
 
-		engineState.detectAndHandleCollisions();
-		engineState.detectAndHandleEdgeCollisions(canvas);
+    drawFn && drawFn(engineState.objects);
 
-		engineState.updateObjects(elapsed);
-		engineState.drawObjects(ctx);
+    requestAnimationFrame(tick);
+  };
 
-		requestAnimationFrame(tick);
-	};
+  requestAnimationFrame(tick);
 
-	requestAnimationFrame(tick);
-
-	return {
-		onClickCanvas: handleClick(canvas, engineState),
-	};
+  return {
+    spawnObject: addObject(engineState),
+  };
 };
