@@ -13,15 +13,15 @@ const addObject = (engineState: EngineState) => (x: number, y: number) => {
 export type EngineInitParams = {
   canvasWidth: number;
   canvasHeight: number;
-  clearFn?: () => void;
-  drawFn?: (objects: EngineObject[]) => void;
+  onBeforeUpdate?: () => void;
+  onUpdate?: (objects: EngineObject[]) => void;
 };
 
 export const init = ({
   canvasWidth,
   canvasHeight,
-  clearFn,
-  drawFn,
+  onBeforeUpdate,
+  onUpdate,
 }: EngineInitParams) => {
   const engineState = new EngineState(canvasWidth, canvasHeight);
 
@@ -33,14 +33,14 @@ export const init = ({
     oldTimeStamp = timeStamp;
     elapsed = Math.min(elapsed, 0.1);
 
-    clearFn && clearFn();
+    onBeforeUpdate && onBeforeUpdate();
 
     engineState.detectAndHandleCollisions();
     engineState.detectAndHandleEdgeCollisions();
 
     engineState.updateObjects(elapsed);
 
-    drawFn && drawFn(engineState.objects);
+    onUpdate && onUpdate(engineState.objects);
 
     requestAnimationFrame(tick);
   };

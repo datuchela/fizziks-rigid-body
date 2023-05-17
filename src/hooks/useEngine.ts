@@ -29,8 +29,8 @@ export const useEngine = () => {
       const engine = init({
         canvasWidth: canvasRef.current.width,
         canvasHeight: canvasRef.current.height,
-        drawFn: (objects) => drawFn(objects, ctx),
-        clearFn: () => clearFn(canvasRef.current, ctx),
+        onUpdate: (objects) => drawFn(objects, ctx),
+        onBeforeUpdate: () => clearFn(canvasRef.current, ctx),
       });
 
       if (engine) {
