@@ -35,8 +35,8 @@ export const init = ({
 
     onBeforeUpdate && onBeforeUpdate();
 
-    engineState.detectAndHandleCollisions();
-    engineState.detectAndHandleEdgeCollisions();
+    engineState.detectCollisions();
+    engineState.detectEdgeCollisions();
 
     engineState.updateObjects(elapsed);
 
