@@ -55,25 +55,37 @@ export class EngineState {
     this.objects.push(object);
   };
 
-  detectAndHandleCollisions = () => {
+  private resetCollisions = () => {
+    for (let i = 0; i < this.objects.length; ++i) {
+      this.objects[i].isColliding = false;
+    }
+  };
+
+  private handleCollisions = (obj1: EngineObject, obj2: EngineObject) => {
+    obj1.isColliding = true;
+    obj2.isColliding = true;
+  };
+
+  detectCollisions = (
+    handler: (obj1: EngineObject, obj2: EngineObject) => void
+  ) => {
     let obj1;
     let obj2;
-
-    // reset collisions
-    this.objects.forEach((obj) => {
-      obj.isColliding = false;
-    });
 
     for (let i = 0; i < this.objects.length; i++) {
       obj1 = this.objects[i];
       for (let j = i + 1; j < this.objects.length; j++) {
         obj2 = this.objects[j];
         if (rectIntersect(obj1, obj2)) {
-          obj1.isColliding = true;
-          obj2.isColliding = true;
+          handler(obj1, obj2);
         }
       }
     }
+  };
+
+  detectAndHandleCollisions = () => {
+    this.resetCollisions();
+    this.detectCollisions(this.handleCollisions);
   };
 
   detectAndHandleEdgeCollisions = () => {
