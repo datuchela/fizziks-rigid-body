@@ -1,4 +1,4 @@
-import type { Square } from "../objects/Square";
+import type { Square } from "../engine/objects/Square";
 
 export const rectIntersect = (rect1: Square, rect2: Square) => {
   if (
