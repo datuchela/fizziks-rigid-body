@@ -2,7 +2,7 @@ import { useEngine } from "../hooks/useEngine";
 
 import canvasClasses from "./Canvas.module.css";
 
-const DEFAULT_CANVAS_WIDTH = 1280;
+const DEFAULT_CANVAS_WIDTH = 800;
 const DEFAULT_CANVAS_HEIGHT = 720;
 
 export const Canvas = () => {
