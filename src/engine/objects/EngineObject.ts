@@ -1,6 +1,6 @@
 import { g } from "../utils/constants";
 
-export interface EngineObjectConstructorProps {
+export interface BaseObjectConstructorProps {
   id?: string;
   x: number;
   y: number;
@@ -9,7 +9,7 @@ export interface EngineObjectConstructorProps {
   mass?: number;
 }
 
-export interface EngineObject {
+export interface BaseObject {
   id: string;
   x: number;
   y: number;
@@ -20,7 +20,7 @@ export interface EngineObject {
   draw: (ctx: CanvasRenderingContext2D) => void;
 }
 
-export class EngineObject {
+export class BaseObject {
   constructor({
     id,
     x,
@@ -28,7 +28,7 @@ export class EngineObject {
     vx = 0,
     vy = 0,
     mass = 10,
-  }: EngineObjectConstructorProps) {
+  }: BaseObjectConstructorProps) {
     this.id = id ?? crypto.randomUUID();
     this.x = x;
     this.y = y;
