@@ -1,11 +1,11 @@
 import { spawnRect } from "../utils/spawnRect";
-import { EngineObject, EngineObjectConstructorProps } from "./EngineObject";
+import { BaseObject, BaseObjectConstructorProps } from "./BaseObject";
 
-interface SquareConstructorProps extends EngineObjectConstructorProps {
+interface SquareConstructorProps extends BaseObjectConstructorProps {
   length?: number;
 }
 
-export class Square extends EngineObject {
+export class Square extends BaseObject {
   length;
   isColliding = false;
 
