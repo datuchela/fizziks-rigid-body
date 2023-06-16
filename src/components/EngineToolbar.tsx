@@ -1,4 +1,4 @@
-import { Material } from "../engine/objects";
+import { Material } from "../engine/objects/materials.constants";
 import { useEngineOptions } from "../hooks/useEngineOptions";
 
 export const EngineToolbar = () => {

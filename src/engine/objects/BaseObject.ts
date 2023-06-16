@@ -1,14 +1,5 @@
 import { GRAVITY_EARTH } from "../utils/constants";
-
-export enum Material {
-  Silicon = "silicon",
-  Aluminium = "aluminium",
-}
-
-const materialDensities = new Map([
-  [Material.Silicon, 20],
-  [Material.Aluminium, 70],
-]);
+import { Material, densities } from "./materials.constants";
 
 export interface BaseObjectConstructorProps {
   id?: string;
@@ -51,7 +42,7 @@ export class BaseObject {
     this.mass = mass;
     this.material = material;
 
-    const density = materialDensities.get(this.material);
+    const density = densities.get(this.material);
 
     if (!density)
       throw new Error(
