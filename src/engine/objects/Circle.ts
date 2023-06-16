@@ -1,4 +1,4 @@
-import { spawnCircle } from "../utils";
+import { PIXELS_PER_METER, spawnCircle } from "../utils";
 import { BaseObject, BaseObjectConstructorProps } from "./BaseObject";
 
 interface CircleConstructorProps extends BaseObjectConstructorProps {
@@ -11,7 +11,8 @@ export class Circle extends BaseObject {
 
   constructor({ radius, ...baseObjectProps }: CircleConstructorProps) {
     super(baseObjectProps);
-    this.radius = Math.sqrt(this.mass / (this.density * Math.PI));
+    this.radius =
+      Math.sqrt(this.mass / (this.density * Math.PI)) * PIXELS_PER_METER;
   }
 
   draw = (ctx: CanvasRenderingContext2D) => {
