@@ -16,7 +16,7 @@ export const engineOptionsContext = createContext({
 export const EngineOptionsContextProvider = ({
   children,
 }: React.PropsWithChildren) => {
-  const [mass, setMass] = useState(0);
+  const [mass, setMass] = useState(20);
   const [material, setMaterial] = useState(Material.Silicon);
 
   const memoizedState = useMemo(() => {
