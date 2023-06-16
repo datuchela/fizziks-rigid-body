@@ -1,4 +1,4 @@
-import { Material } from "../engine/objects/materials.constants";
+import { Material, densities } from "../engine/objects/materials.constants";
 import { useEngineOptions } from "../hooks/useEngineOptions";
 
 export const EngineToolbar = () => {
@@ -12,14 +12,14 @@ export const EngineToolbar = () => {
           <input
             type="range"
             min={0}
-            max={9000}
+            max={100}
             value={mass}
             onChange={(e) => setMass(parseInt(e.target.value))}
           />
           <input
             type="number"
             min={0}
-            max={9000}
+            max={100}
             value={mass}
             onChange={(e) => setMass(parseInt(e.target.value))}
           />
@@ -32,8 +32,9 @@ export const EngineToolbar = () => {
             value={material}
             onChange={(e) => setMaterial(e.target.value as Material)}
           >
-            <option value={Material.Silicon}>Silicone</option>
-            <option value={Material.Aluminium}>Aluminium</option>
+            {[...densities].map((density) => (
+              <option value={density[0]}>{density[0]}</option>
+            ))}
           </select>
         </fieldset>
       </li>
