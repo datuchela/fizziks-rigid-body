@@ -1,2 +1,2 @@
-export const pixels_per_meter = 50;
-export const g = 9.8 * pixels_per_meter;
+export const PIXELS_PER_METER = 50;
+export const GRAVITY_EARTH = 9.8 * PIXELS_PER_METER;
