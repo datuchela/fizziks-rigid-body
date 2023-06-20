@@ -33,7 +33,9 @@ export const EngineToolbar = () => {
             onChange={(e) => setMaterial(e.target.value as Material)}
           >
             {[...densities].map(([material, density]) => (
-              <option value={material}>{density}</option>
+              <option value={material}>{`${material} - ${density.toFixed(
+                0
+              )} kg/m^2`}</option>
             ))}
           </select>
         </fieldset>
