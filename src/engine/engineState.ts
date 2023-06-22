@@ -11,8 +11,8 @@ const vecDistance = (vec1: Vector, vec2: Vector) => {
 export type EngineObject = Square | Circle;
 
 export enum EngineStateValue {
-  paused,
-  running,
+  Paused,
+  Running,
 }
 
 export enum Wall {
@@ -47,7 +47,7 @@ export class EngineState {
     canvasHeight: number,
     objects?: EngineObject[]
   ) {
-    this.value = EngineStateValue.running;
+    this.value = EngineStateValue.Running;
     this.objects = objects ?? [];
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
