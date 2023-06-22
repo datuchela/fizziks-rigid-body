@@ -19,7 +19,7 @@ export interface BaseObject {
 	mass: number;
 	setCoordinates: (setterFn: ([x, y]: Vector) => Vector) => void;
 	setVelocity: (setterFn: ([vx, vy]: Vector) => Vector) => void;
-	update: (dt: number) => void;
+	updateCoordinates: (dt: number) => void;
 	draw: (ctx: CanvasRenderingContext2D) => void;
 }
 
@@ -52,7 +52,7 @@ export class BaseObject {
 		this.vy = newVy;
 	};
 
-	update = (dt: number) => {
+	updateCoordinates = (dt: number) => {
 		this.fall(dt);
 		this.setCoordinates(([x, y]) => [x + this.vx * dt, y + this.vy * dt]);
 	};
