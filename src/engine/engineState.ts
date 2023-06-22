@@ -42,7 +42,11 @@ export class EngineState {
 	canvasWidth;
 	canvasHeight;
 
-	constructor(canvasWidth: number, canvasHeight: number, objects?: EngineObject[]) {
+	constructor(
+		canvasWidth: number,
+		canvasHeight: number,
+		objects?: EngineObject[]
+	) {
 		this.value = EngineStateValue.running;
 		this.objects = objects ?? [];
 		this.canvasWidth = canvasWidth;
@@ -51,7 +55,7 @@ export class EngineState {
 
 	updateObjects = (dt: number) => {
 		this.objects.forEach((obj) => {
-			obj.update(dt);
+			obj.updateCoordinates(dt);
 		});
 	};
 
@@ -86,10 +90,17 @@ export class EngineState {
 
 		const impulse = (2 * speed) / (obj1.mass + obj2.mass);
 
-		obj1.vx -= impulse * obj2.mass * vCollisionNorm[0] * restitution;
-		obj1.vy -= impulse * obj2.mass * vCollisionNorm[1] * restitution;
-		obj2.vx += impulse * obj1.mass * vCollisionNorm[0] * restitution;
-		obj2.vy += impulse * obj1.mass * vCollisionNorm[1] * restitution;
+		obj1.setVelocity(([vx, vy]) => {
+			vx -= impulse * obj2.mass * vCollisionNorm[0] * restitution;
+			vy -= impulse * obj2.mass * vCollisionNorm[1] * restitution;
+			return [vx, vy];
+		});
+
+		obj2.setVelocity(([vx, vy]) => {
+			vx += impulse * obj1.mass * vCollisionNorm[0] * restitution;
+			vy += impulse * obj1.mass * vCollisionNorm[1] * restitution;
+			return [vx, vy];
+		});
 	};
 
 	detectCollisions = () => {
@@ -114,20 +125,20 @@ export class EngineState {
 
 		switch (wall) {
 			case Wall.Top:
-				obj.vy = Math.abs(obj.vy) * restitution;
-				obj.y = obj.radius;
+				obj.setVelocity(([vx, vy]) => [vx, Math.abs(vy) * restitution]);
+				obj.setCoordinates(([x, y]) => [x, obj.radius]);
 				break;
 			case Wall.Right:
-				obj.vx = -Math.abs(obj.vx) * restitution;
-				obj.x = this.canvasWidth - obj.radius;
+				obj.setVelocity(([vx, vy]) => [-Math.abs(obj.vx) * restitution, vy]);
+				obj.setCoordinates(([x, y]) => [this.canvasWidth - obj.radius, y]);
 				break;
 			case Wall.Bottom:
-				obj.vy = -Math.abs(obj.vy) * restitution;
-				obj.y = this.canvasHeight - obj.radius;
+				obj.setVelocity(([vx, vy]) => [vx, -Math.abs(obj.vy) * restitution]);
+				obj.setCoordinates(([x, y]) => [x, this.canvasHeight - obj.radius]);
 				break;
 			case Wall.Left:
-				obj.vx = Math.abs(obj.vx) * restitution;
-				obj.x = obj.radius;
+				obj.setVelocity(([vx, vy]) => [Math.abs(obj.vx) * restitution, vy]);
+				obj.setCoordinates(([x, y]) => [obj.radius, y]);
 				break;
 
 			default:
