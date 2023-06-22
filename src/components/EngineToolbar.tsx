@@ -1,4 +1,5 @@
-import { Material, densities } from "../engine/objects/materials.constants";
+import { Material } from "../engine/objects/materials.types";
+import { densities } from "../engine/objects/materials.constants";
 import { useEngineOptions } from "../hooks/useEngineOptions";
 
 export const EngineToolbar = () => {

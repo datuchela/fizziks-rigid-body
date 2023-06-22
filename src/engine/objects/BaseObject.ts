@@ -1,5 +1,6 @@
 import { GRAVITY_EARTH } from "../utils/constants";
-import { Material, densities } from "./materials.constants";
+import { Material } from "./materials.types";
+import { densities } from "./materials.constants";
 
 export interface BaseObjectConstructorProps {
   id?: string;

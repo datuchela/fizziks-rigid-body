@@ -1,5 +1,5 @@
 import { createContext, useState, useMemo } from "react";
-import { Material } from "../engine/objects/materials.constants";
+import { Material } from "../engine/objects/materials.types";
 
 interface EngineContextProps {
   mass: number;

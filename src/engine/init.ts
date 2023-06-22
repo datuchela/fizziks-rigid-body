@@ -1,5 +1,5 @@
 import { EngineObject, EngineState } from "./engineState";
-import { Material } from "./objects/materials.constants";
+import { Material } from "./objects/materials.types";
 import { Circle } from "./objects/Circle";
 
 export type Engine = {

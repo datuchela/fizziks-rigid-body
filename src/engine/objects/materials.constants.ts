@@ -1,8 +1,4 @@
-export enum Material {
-  Silicon = "Silicon",
-  Aluminium = "Aluminium",
-  Platinum = "Platinum",
-}
+import { Material } from "./materials.types";
 
 // Since given density units are in kg/m^3,
 // and our engine only cares about 2D space we need to convert densities into kg/m^2.
