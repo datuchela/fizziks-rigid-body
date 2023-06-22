@@ -3,7 +3,7 @@ import { densities } from "../engine/objects/materials.constants";
 import { useEngineOptions } from "../hooks/useEngineOptions";
 
 export const EngineToolbar = () => {
-  const { mass, material, setMass, setMaterial } = useEngineOptions();
+  const { mass, material, changeMass, changeMaterial } = useEngineOptions();
 
   return (
     <ul>
@@ -15,14 +15,14 @@ export const EngineToolbar = () => {
             min={0}
             max={100}
             value={mass}
-            onChange={(e) => setMass(parseInt(e.target.value))}
+            onChange={(e) => changeMass(parseInt(e.target.value))}
           />
           <input
             type="number"
             min={0}
             max={100}
             value={mass}
-            onChange={(e) => setMass(parseInt(e.target.value))}
+            onChange={(e) => changeMass(parseInt(e.target.value))}
           />
         </fieldset>
       </li>
@@ -31,7 +31,7 @@ export const EngineToolbar = () => {
           <legend>Material</legend>
           <select
             value={material}
-            onChange={(e) => setMaterial(e.target.value as Material)}
+            onChange={(e) => changeMaterial(e.target.value as Material)}
           >
             {[...densities].map(([material, density]) => (
               <option value={material}>{`${material} - ${density.toFixed(

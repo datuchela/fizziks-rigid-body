@@ -1,11 +1,11 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useCallback } from "react";
 import { Material } from "../engine/objects/materials.types";
 
 interface EngineContextProps {
   mass: number;
   material: Material;
-  setMass: React.Dispatch<React.SetStateAction<number>>;
-  setMaterial: React.Dispatch<React.SetStateAction<Material>>;
+  changeMass: (newMass: number) => void;
+  changeMaterial: (newMaterial: Material) => void;
 }
 
 export const engineOptionsContext = createContext({
@@ -19,9 +19,17 @@ export const EngineOptionsContextProvider = ({
   const [mass, setMass] = useState(20);
   const [material, setMaterial] = useState(Material.Silicon);
 
+  const changeMass = useCallback((newMass: number) => {
+    setMass(newMass);
+  }, []);
+
+  const changeMaterial = useCallback((newMaterial: Material) => {
+    setMaterial(newMaterial);
+  }, []);
+
   const memoizedState = useMemo(() => {
-    return { mass, material, setMass, setMaterial };
-  }, [mass, material, setMass, setMaterial]);
+    return { mass, material, changeMass, changeMaterial };
+  }, [mass, material]);
 
   return (
     <engineOptionsContext.Provider value={memoizedState}>
