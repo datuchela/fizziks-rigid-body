@@ -43,10 +43,6 @@ export type EngineInitParams = {
   canvasHeight: number;
   onBeforeUpdate?: () => void;
   onUpdate?: (objects: EngineObject[]) => void;
-  canvasWidth: number;
-  canvasHeight: number;
-  onBeforeUpdate?: () => void;
-  onUpdate?: (objects: EngineObject[]) => void;
 };
 
 export const init = ({
@@ -54,16 +50,9 @@ export const init = ({
   canvasHeight,
   onBeforeUpdate,
   onUpdate,
-  canvasWidth,
-  canvasHeight,
-  onBeforeUpdate,
-  onUpdate,
 }: EngineInitParams) => {
   const engineState = new EngineState(canvasWidth, canvasHeight);
-  const engineState = new EngineState(canvasWidth, canvasHeight);
 
-  let elapsed = 0;
-  let oldTimeStamp = 0;
   let elapsed = 0;
   let oldTimeStamp = 0;
 
