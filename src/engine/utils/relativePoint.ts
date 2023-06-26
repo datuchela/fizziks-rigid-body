@@ -1,13 +1,13 @@
 import type { Vector } from "../types";
 
 export const relativePoint = (
-	x: number,
-	y: number,
-	canvas: HTMLCanvasElement
+  x: number,
+  y: number,
+  canvas: HTMLCanvasElement
 ): Vector => {
-	const rect = canvas.getBoundingClientRect();
-	const relativeX = x - rect.left;
-	const relativeY = y - rect.top;
+  const rect = canvas.getBoundingClientRect();
+  const relativeX = x - rect.left;
+  const relativeY = y - rect.top;
 
-	return [relativeX, relativeY];
+  return [relativeX, relativeY];
 };
