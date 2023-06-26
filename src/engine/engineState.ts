@@ -1,6 +1,7 @@
 import { Circle, Square } from "./objects";
 import { circleIntersect } from "./utils/circleIntersect";
 import type { Vector } from "./types";
+import { oppositeVector } from "./utils/oppositeVector";
 
 const square = (num: number) => Math.pow(num, 2);
 
@@ -77,26 +78,36 @@ export class EngineState {
 
   private handleCollisions = (obj1: EngineObject, obj2: EngineObject) => {
     const restitution = 0.9;
-    const vCollision = [obj2.x - obj1.x, obj2.y - obj1.y];
+    const vCollision: Vector = [obj2.x - obj1.x, obj2.y - obj1.y];
     const distance = vecDistance([obj1.x, obj1.y], [obj2.x, obj2.y]);
 
     // Prevent NaN
-    const vCollisionNorm = [
+    const vCollisionNorm: Vector = [
       vCollision[0] / distance || 0,
       vCollision[1] / distance || 0,
     ];
 
-    const vRelative = [obj1.vx - obj2.vx, obj1.vy - obj2.vy];
+    const vRelative: Vector = [obj1.vx - obj2.vx, obj1.vy - obj2.vy];
     const speed =
       vRelative[0] * vCollisionNorm[0] + vRelative[1] * vCollisionNorm[1];
 
     if (speed < 0) return;
 
     const impulse = (2 * speed) / (obj1.mass + obj2.mass);
-    obj1.vx -= impulse * obj2.mass * vCollisionNorm[0] * restitution;
-    obj1.vy -= impulse * obj2.mass * vCollisionNorm[1] * restitution;
-    obj2.vx += impulse * obj1.mass * vCollisionNorm[0] * restitution;
-    obj2.vy += impulse * obj1.mass * vCollisionNorm[1] * restitution;
+
+    obj1.updateVelocityOnCollision({
+      secondObjectMass: obj2.mass,
+      collisionVectorNorm: vCollisionNorm,
+      impulse,
+      restitution,
+    });
+
+    obj2.updateVelocityOnCollision({
+      secondObjectMass: obj2.mass,
+      collisionVectorNorm: oppositeVector(vCollisionNorm),
+      impulse,
+      restitution,
+    });
   };
 
   detectCollisions = () => {
