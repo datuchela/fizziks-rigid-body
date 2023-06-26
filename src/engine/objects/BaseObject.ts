@@ -22,7 +22,7 @@ export interface BaseObject {
   mass: number;
   material: Material;
   density: number;
-  update: (dt: number) => void;
+  updateCoordinates: (dt: number) => void;
   draw: (ctx: CanvasRenderingContext2D) => void;
 }
 
@@ -54,7 +54,7 @@ export class BaseObject {
     this.density = density;
   }
 
-  update = (dt: number) => {
+  updateCoordinates = (dt: number) => {
     this.fall(dt);
     this.x += this.vx * dt;
     this.y += this.vy * dt;

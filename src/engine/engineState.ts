@@ -56,7 +56,7 @@ export class EngineState {
 
   updateObjects = (dt: number) => {
     this.objects.forEach((obj) => {
-      obj.update(dt);
+      obj.updateCoordinates(dt);
     });
   };
 
