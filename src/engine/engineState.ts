@@ -129,28 +129,12 @@ export class EngineState {
 
   private handleEdgeCollisions = (obj: Circle, wall: Wall) => {
     const restitution = 0.9;
-
-    switch (wall) {
-      case Wall.Top:
-        obj.vy = Math.abs(obj.vy) * restitution;
-        obj.y = obj.radius;
-        break;
-      case Wall.Right:
-        obj.vx = -Math.abs(obj.vx) * restitution;
-        obj.x = this.canvasWidth - obj.radius;
-        break;
-      case Wall.Bottom:
-        obj.vy = -Math.abs(obj.vy) * restitution;
-        obj.y = this.canvasHeight - obj.radius;
-        break;
-      case Wall.Left:
-        obj.vx = Math.abs(obj.vx) * restitution;
-        obj.x = obj.radius;
-        break;
-
-      default:
-        throw new Error("Invalid Wall Type");
-    }
+    obj.updateVelocityOnEdgeCollision({ wall, restitution });
+    obj.updateCoordinatesOnEdgeCollision({
+      wall,
+      canvasWidth: this.canvasWidth,
+      canvasHeight: this.canvasHeight,
+    });
   };
 
   detectEdgeCollisions = () => {

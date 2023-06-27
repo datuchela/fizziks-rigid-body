@@ -2,6 +2,7 @@ import { GRAVITY_EARTH } from "../utils/constants";
 import { Material } from "./materials.types";
 import { densities } from "./materials.constants";
 import type { Vector } from "../types";
+import { Wall } from "../engineState";
 
 export interface BaseObjectConstructorProps {
   id?: string;
@@ -75,6 +76,32 @@ export class BaseObject {
       impulse * secondObjectMass * collisionVectorNorm[0] * restitution;
     this.vy -=
       impulse * secondObjectMass * collisionVectorNorm[1] * restitution;
+  };
+
+  updateVelocityOnEdgeCollision = ({
+    wall,
+    restitution,
+  }: {
+    wall: Wall;
+    restitution: number;
+  }) => {
+    switch (wall) {
+      case Wall.Top:
+        this.vy = Math.abs(this.vy) * restitution;
+        break;
+      case Wall.Right:
+        this.vx = -Math.abs(this.vx) * restitution;
+        break;
+      case Wall.Bottom:
+        this.vy = -Math.abs(this.vy) * restitution;
+        break;
+      case Wall.Left:
+        this.vx = Math.abs(this.vx) * restitution;
+        break;
+
+      default:
+        throw new Error("Invalid Wall Type");
+    }
   };
 
   private fall = (dt: number) => {
