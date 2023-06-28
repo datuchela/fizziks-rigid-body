@@ -63,19 +63,19 @@ export class BaseObject {
 
   updateVelocityOnCollision = ({
     impulse,
-    secondObjectMass,
+    oppositeObjectMass,
     collisionVectorNorm,
     restitution,
   }: {
     impulse: number;
-    secondObjectMass: number;
+    oppositeObjectMass: number;
     collisionVectorNorm: Vector;
     restitution: number;
   }) => {
     this.vx -=
-      impulse * secondObjectMass * collisionVectorNorm[0] * restitution;
+      impulse * oppositeObjectMass * collisionVectorNorm[0] * restitution;
     this.vy -=
-      impulse * secondObjectMass * collisionVectorNorm[1] * restitution;
+      impulse * oppositeObjectMass * collisionVectorNorm[1] * restitution;
   };
 
   updateVelocityOnEdgeCollision = ({

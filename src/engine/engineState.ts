@@ -96,14 +96,14 @@ export class EngineState {
     const impulse = (2 * speed) / (obj1.mass + obj2.mass);
 
     obj1.updateVelocityOnCollision({
-      secondObjectMass: obj2.mass,
+      oppositeObjectMass: obj2.mass,
       collisionVectorNorm: vCollisionNorm,
       impulse,
       restitution,
     });
 
     obj2.updateVelocityOnCollision({
-      secondObjectMass: obj2.mass,
+      oppositeObjectMass: obj2.mass,
       collisionVectorNorm: oppositeVector(vCollisionNorm),
       impulse,
       restitution,
