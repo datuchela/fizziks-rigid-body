@@ -103,7 +103,7 @@ export class EngineState {
     });
 
     obj2.updateVelocityOnCollision({
-      oppositeObjectMass: obj2.mass,
+      oppositeObjectMass: obj1.mass,
       collisionVectorNorm: oppositeVector(vCollisionNorm),
       impulse,
       restitution,
