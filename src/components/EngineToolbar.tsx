@@ -38,7 +38,7 @@ export const EngineToolbar = () => {
             onChange={(e) => changeMaterial(e.target.value as Material)}
           >
             {[...densities].map(([material, density]) => (
-              <option value={material}>
+              <option key={material} value={material}>
                 {`
                 ${material}
                  - 
