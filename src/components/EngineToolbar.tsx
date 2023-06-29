@@ -1,6 +1,7 @@
 import { Material } from "../engine/objects/materials.types";
 import { densities } from "../engine/objects/materials.constants";
 import { useEngineOptions } from "../hooks/useEngineOptions";
+import { scientificNotation } from "../utils/scientificNotation";
 
 const MAX_MASS = 9999999999;
 const MAX_SLIDER_MASS = 9999;
@@ -37,9 +38,14 @@ export const EngineToolbar = () => {
             onChange={(e) => changeMaterial(e.target.value as Material)}
           >
             {[...densities].map(([material, density]) => (
-              <option value={material}>{`${material} - ${density.toFixed(
-                0
-              )} kg/m^2`}</option>
+              <option value={material}>
+                {`
+                ${material}
+                 - 
+                 ${scientificNotation(density)}
+                 kg/m^2
+                `}
+              </option>
             ))}
           </select>
         </fieldset>
